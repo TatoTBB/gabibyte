@@ -1,15 +1,15 @@
 {
   "name": "gabi-bytes",
   "version": "1.0.0",
-  "description": "A coming soon landing page for GABiBYTES",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Gabriel Jiménez Rojas",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "micro": "^10.0.1",
-    "nodemailer": "^6.9.3"
+    "nodemailer": "^6.9.13"
   }
 }
