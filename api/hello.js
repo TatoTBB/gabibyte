@@ -1,4 +1,3 @@
-export default function handler(request, response) {
-  const { name = 'World' } = request.query;
-  return response.send(`Hello ${name}!`);
-}
+export default (req, res) => {
+  res.status(200).json({ message: 'Hello, world!' });
+};
