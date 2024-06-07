@@ -39,7 +39,9 @@ module.exports = async (req, res) => {
         res.status(200).json({ message: "Email received!", email });
       } catch (error) {
         console.error("Error sending emails:", error);
-        res.status(500).json({ message: "Error sending emails", error });
+        res
+          .status(500)
+          .json({ message: "Error sending emails", error: error.message });
       }
     } else {
       console.log("No email provided");
