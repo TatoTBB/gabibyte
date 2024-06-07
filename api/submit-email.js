@@ -17,24 +17,25 @@ module.exports = async (req, res) => {
           },
         });
 
-        // Define the email options for you
+        // Define the email options for notifying you
         let mailOptionsToYou = {
           from: process.env.EMAIL_USER,
           to: process.env.EMAIL_USER,
-          subject: "New Signup Notification",
-          text: `A new user has signed up with the email: ${email}`,
+          subject: "¡Usuario nuevo en Gabibyte!",
+          text: `Un nuevo usuario se ha registrado en la cola: ${email}`,
         };
 
-        // Define the email options for the user
+        // Define the email options for thanking the user
         let mailOptionsToUser = {
           from: process.env.EMAIL_USER,
           to: email,
-          subject: "Welcome to GABiBYTES",
-          text: "Thank you for signing up! We will notify you once our store is open.",
+          subject: "¡Bienvenido a Gabibyte!",
+          text: "¡Gracias por unirte a Gabibyte! Te avisaremos cuando la tienda abra, guarda este email para un 15% de descuento.",
         };
 
-        // Send emails
+        // Send email to you
         await transporter.sendMail(mailOptionsToYou);
+        // Send email to the user
         await transporter.sendMail(mailOptionsToUser);
 
         console.log("Emails sent successfully");
