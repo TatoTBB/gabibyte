@@ -1,4 +1,6 @@
-const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = async (req, res) => {
   console.log("Request received:", req.method, req.body);
@@ -6,34 +8,25 @@ module.exports = async (req, res) => {
     const { email } = req.body;
     if (email) {
       try {
-        // Create a transporter using the environment variables
-        let transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-          },
-        });
-
-        // Define the email options for you
-        let mailOptionsToYou = {
-          from: process.env.EMAIL_USER,
+        // Email to you
+        const msgToYou = {
           to: process.env.EMAIL_USER,
+          from: process.env.EMAIL_USER, // Use the same email address as the sender
           subject: "New Signup Notification",
           text: `A new user has signed up with the email: ${email}`,
         };
 
-        // Define the email options for the user
-        let mailOptionsToUser = {
-          from: process.env.EMAIL_USER,
+        // Email to user
+        const msgToUser = {
           to: email,
+          from: process.env.EMAIL_USER,
           subject: "Welcome to GABiBYTES",
           text: "Thank you for signing up! We will notify you once our store is open.",
         };
 
         // Send emails
-        await transporter.sendMail(mailOptionsToYou);
-        await transporter.sendMail(mailOptionsToUser);
+        await sgMail.send(msgToYou);
+        await sgMail.send(msgToUser);
 
         console.log("Emails sent successfully");
         res.status(200).json({ message: "Email received!", email });
