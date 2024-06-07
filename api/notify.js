@@ -2,16 +2,21 @@ const nodemailer = require('nodemailer');
 
 export default async (req, res) => {
   try {
-    // Check if the request method is POST
+    // Ensure the request method is POST
     if (req.method !== 'POST') {
       res.status(405).json({ error: 'Method Not Allowed' });
       return;
     }
 
-    // Parse the JSON body manually
-    const { email } = JSON.parse(req.body);
+    // Ensure Content-Type is application/json
+    if (!req.headers['content-type'] || req.headers['content-type'] !== 'application/json') {
+      res.status(400).json({ error: 'Invalid Content-Type' });
+      return;
+    }
 
-    // Validate email
+    // Parse the JSON body
+    const { email } = req.body;
+
     if (!email) {
       res.status(400).json({ error: 'Email is required' });
       return;
