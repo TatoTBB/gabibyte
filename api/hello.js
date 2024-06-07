@@ -1,3 +1,4 @@
-export default async (req, res) => {
-  res.status(200).json({ message: 'Hello, world!' });
-};
+export default function handler(request, response) {
+  const { name = 'World' } = request.query;
+  return response.send(`Hello ${name}!`);
+}
