@@ -92,19 +92,26 @@
     <script>
       async function submitForm(event) {
         event.preventDefault();
-        const email = document.getElementById('email').value;
-        const response = await fetch('/api/submit-email', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-          $('#thankYouModal').modal('show');
-        } else {
-          alert(data.message);
+        const email = document.getElementById("email").value;
+        try {
+          const response = await fetch("/api/submit-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          });
+          const data = await response.json();
+          if (response.ok) {
+            console.log("Success:", data);
+            $("#thankYouModal").modal("show");
+          } else {
+            console.error("Error:", data);
+            alert(data.message);
+          }
+        } catch (error) {
+          console.error("Network Error:", error);
+          alert("An error occurred. Please try again later.");
         }
       }
     </script>
