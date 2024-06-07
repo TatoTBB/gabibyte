@@ -19,7 +19,6 @@
     <div class="container">
       <div class="logo">
         <img src="resources/logo.png" alt="Logo" />
-        <!-- Replace 'logo.png' with your logo file -->
       </div>
       <div class="message">
         <p>
@@ -91,28 +90,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      function submitForm(event) {
+      async function submitForm(event) {
         event.preventDefault();
-        const email = document.getElementById("email").value;
-
-        fetch("/api/notify", {
-          method: "POST",
+        const email = document.getElementById('email').value;
+        const response = await fetch('/api/submit-email', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email }),
-        })
-          .then((response) => response.json())
-          .then((result) => {
-            if (result.message) {
-              $("#thankYouModal").modal("show");
-            } else {
-              alert("Failed to send email");
-            }
-          })
-          .catch((error) => {
-            alert("Failed to send email");
-          });
+        });
+        const data = await response.json();
+        if (response.ok) {
+          $('#thankYouModal').modal('show');
+        } else {
+          alert(data.message);
+        }
       }
     </script>
   </body>
