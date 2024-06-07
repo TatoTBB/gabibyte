@@ -1,9 +1,11 @@
 const nodemailer = require("nodemailer");
 
-export default async (req, res) => {
-  console.log("Request received:", req.body);
-  
+module.exports = async (req, res) => {
   const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
 
   let transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -22,7 +24,6 @@ export default async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
     res.status(200).json({ message: "Email sent successfully!" });
   } catch (error) {
     console.error("Error sending email:", error);
