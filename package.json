@@ -9,6 +9,7 @@
   "author": "Gabriel Jiménez Rojas",
   "license": "ISC",
   "dependencies": {
+    "micro": "^10.0.1",
     "nodemailer": "^6.9.3"
   }
 }
