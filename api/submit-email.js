@@ -6,11 +6,9 @@ module.exports = async (req, res) => {
     const { email } = req.body;
     if (email) {
       try {
-        // Create a transporter using the Outlook account
+        // Create a transporter using the Gmail account
         let transporter = nodemailer.createTransport({
-          host: "smtp.office365.com",
-          port: 587,
-          secure: false, // true for 465, false for other ports
+          service: "gmail",
           auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
@@ -22,7 +20,7 @@ module.exports = async (req, res) => {
           from: process.env.EMAIL_USER,
           to: process.env.EMAIL_USER,
           subject: "¡Usuario nuevo en Gabibyte!",
-          text: `Un nuevo usuario se ha registrado en la cola: ${email}`,
+          text: `Un nuevo usuario se ha registrado: ${email}`,
         };
 
         // Define the email options for thanking the user
