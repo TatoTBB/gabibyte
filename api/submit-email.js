@@ -1,6 +1,4 @@
-const sgMail = require("@sendgrid/mail");
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const nodemailer = require("nodemailer");
 
 module.exports = async (req, res) => {
   console.log("Request received:", req.method, req.body);
@@ -8,25 +6,36 @@ module.exports = async (req, res) => {
     const { email } = req.body;
     if (email) {
       try {
-        // Email to you
-        const msgToYou = {
+        // Create a transporter using the Outlook account
+        let transporter = nodemailer.createTransport({
+          host: "smtp.office365.com",
+          port: 587,
+          secure: false, // true for 465, false for other ports
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+          },
+        });
+
+        // Define the email options for you
+        let mailOptionsToYou = {
+          from: process.env.EMAIL_USER,
           to: process.env.EMAIL_USER,
-          from: process.env.EMAIL_USER, // Use the same email address as the sender
           subject: "New Signup Notification",
           text: `A new user has signed up with the email: ${email}`,
         };
 
-        // Email to user
-        const msgToUser = {
-          to: email,
+        // Define the email options for the user
+        let mailOptionsToUser = {
           from: process.env.EMAIL_USER,
+          to: email,
           subject: "Welcome to GABiBYTES",
           text: "Thank you for signing up! We will notify you once our store is open.",
         };
 
         // Send emails
-        await sgMail.send(msgToYou);
-        await sgMail.send(msgToUser);
+        await transporter.sendMail(mailOptionsToYou);
+        await transporter.sendMail(mailOptionsToUser);
 
         console.log("Emails sent successfully");
         res.status(200).json({ message: "Email received!", email });
