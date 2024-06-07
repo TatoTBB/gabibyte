@@ -1,10 +1,10 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 export default async (req, res) => {
   const { email } = req.body;
 
   let transporter = nodemailer.createTransport({
-    service: "Gmail",
+    service: 'Gmail',
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -14,14 +14,14 @@ export default async (req, res) => {
   let mailOptions = {
     from: process.env.EMAIL_USER,
     to: process.env.EMAIL_USER,
-    subject: "New Notification",
+    subject: 'New Notification',
     text: `A new user has signed up with the email: ${email}`,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: "Email sent successfully!" });
+    res.status(200).json({ message: 'Email sent successfully!' });
   } catch (error) {
-    res.status(500).json({ error: "Failed to send email" });
+    res.status(500).json({ error: 'Failed to send email' });
   }
 };
